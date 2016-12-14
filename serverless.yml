@@ -1,0 +1,107 @@
+
+service: vote-app-demo
+provider:
+  name: aws
+  runtime: nodejs4.3
+  stage: prod
+  region: us-west-2
+  iamRoleStatements: # permissions for all of your functions can be set here
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+        - s3:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - iam:*
+      Resource: "arn:aws:iam::997544667679:role/vote-app-demo*"
+functions:
+  voteApp:
+    handler: ./src/voteApp
+  voteAggregate:
+    handler: ./src/voteAggregate
+    events:
+      - stream:
+        arn:
+          Fn::GetAtt:
+          - 'voteStream'
+          - 'Arn'
+#    events:
+#      - stream: arn:aws:dynamodb:us-west-2:997544667679:table/vote/stream/2016-12-13T21:02:04.011
+resources:
+  Resources:
+    S3Bucket:
+      Type: 'AWS::S3::Bucket'
+      Properties:
+        AccessControl: 'PublicRead'
+        BucketName: 'vote-app-hackathon'
+        WebsiteConfiguration:
+          IndexDocument: 'index.html'
+          ErrorDocument: 'error.html'
+    BucketPolicyVote:
+      Type: "AWS::S3::BucketPolicy"
+      Properties:
+        Bucket:
+          Ref: "S3Bucket"
+        PolicyDocument:
+          Statement:
+            -
+              Action:
+                - "s3:GetObject"
+              Effect: "Allow"
+              Resource:
+                Fn::Join:
+                  - ""
+                  -
+                    - "arn:aws:s3:::"
+                    -
+                      Ref: "S3Bucket"
+                    - "/*"
+              Principal: "*"
+    voteTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: VotedFor
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: VotedFor
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'vote'
+        StreamSpecification:
+          StreamViewType: 'NEW_IMAGE'
+    voteAggregateTableHack:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: VotedFor
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: VotedFor
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'voteAggregate'
+  Outputs:
+    voteStream:
+      Description: 'Vote Table stream'
+      Value:
+        Fn::GetAtt:
+        - 'voteTable'
+        - 'StreamArn'
+    WebsiteURL:
+       Description: 'URL for static website hosted on S3'
+       Value:
+         Fn::GetAtt:
+         - 'S3Bucket'
+         - 'WebsiteURL'
