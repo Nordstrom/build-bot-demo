@@ -17,17 +17,17 @@ provider:
       Resource: "arn:aws:iam::997544667679:role/vote-app-demo*"
 functions:
   voteApp:
-    handler: ./src/voteApp
+    handler: src/voteApp.voteApp
   voteAggregate:
-    handler: ./src/voteAggregate
-    events:
-      - stream:
-        arn:
-          Fn::GetAtt:
-          - 'voteStream'
-          - 'Arn'
+    handler: src/voteAggregate.voteAggregate
 #    events:
-#      - stream: arn:aws:dynamodb:us-west-2:997544667679:table/vote/stream/2016-12-13T21:02:04.011
+#      - stream:
+#        arn:
+#          Fn::GetAtt:
+#          - 'voteStream'
+#          - 'Arn'
+    events:
+      - stream: arn:aws:dynamodb:us-west-2:997544667679:table/vote/stream/2016-12-15T04:58:45.743
 resources:
   Resources:
     S3Bucket:

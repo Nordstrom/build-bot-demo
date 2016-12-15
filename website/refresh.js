@@ -1,15 +1,3 @@
-/* Copyright 2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License"). You may not use 
-this file except in compliance with the License. A copy of the License is 
-located at
-
-http://aws.amazon.com/apache2.0/
-
-or in the "license" file accompanying this file. This file is distributed on an 
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
-implied. See the License for the specific language governing permissions and 
-limitations under the License. */
 
 // Region and IdentityPoolId should be set to your own values
 AWS.config.region = 'us-west-2'; // Region
@@ -52,7 +40,13 @@ var init = [
       color: "#3498db",
       highlight: "#2980b9",
       label: "Blue"
-  }
+  },
+    {
+        value: 1,
+        color: "#dfce52",
+        highlight: "#b9af28",
+        label: "Yellow"
+    }
 ];
 
 graph = new Chart(ctx).Pie(init, options);
@@ -74,6 +68,7 @@ function getData() {
       var redCount = 0;
       var greenCount = 0;
       var blueCount = 0;
+        var yellowCount=0;
 
       for (var i in data['Items']) {
         if (data['Items'][i]['VotedFor']['S'] == "RED") {
@@ -85,6 +80,9 @@ function getData() {
         if (data['Items'][i]['VotedFor']['S'] == "BLUE") {
           blueCount = parseInt(data['Items'][i]['Vote']['N']);
         }
+          if (data['Items'][i]['VotedFor']['S'] == "YELLOW") {
+              yellowCount = parseInt(data['Items'][i]['Vote']['N']);
+          }
       }
 
       var data = [
@@ -105,18 +103,26 @@ function getData() {
             color: "#3498db",
             highlight: "#2980b9",
             label: "Blue"
+        },
+        {
+            value: yellowCount,
+            color: "#dfce52",
+            highlight: "#b9af28",
+            label: "Yellow"
         }
       ];
 
       /* Only update if we have new values (preserves tooltips) */
       if (  graph.segments[0].value != data[0].value ||
             graph.segments[1].value != data[1].value ||
-            graph.segments[2].value != data[2].value
+            graph.segments[2].value != data[2].value ||
+            graph.segments[3].value != data[3].value
          )
       {
         graph.segments[0].value = data[0].value;
         graph.segments[1].value = data[1].value;
         graph.segments[2].value = data[2].value;
+        graph.segments[3].value = data[3].value;
         graph.update();
       }
 

@@ -25,7 +25,7 @@ function updateAggregateForColor(votedFor, numVotes) {
     });
 }
 
-module.exports = (event, context, callback) => {
+module.exports.voteAggregate = (event, context, callback) => {
     var totalRed = 0,
         totalGreen = 0,
         totalBlue = 0,
@@ -58,8 +58,6 @@ module.exports = (event, context, callback) => {
 
     // Update the aggregation table with the total of RED, GREEN, and BLUE
     // votes received from this series of updates
-
-
     if (totalRed > 0) updateAggregateForColor("RED", totalRed);
     if (totalBlue > 0) updateAggregateForColor("BLUE", totalBlue);
     if (totalGreen > 0) updateAggregateForColor("GREEN", totalGreen);

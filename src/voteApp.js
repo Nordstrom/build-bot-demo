@@ -1,7 +1,7 @@
 'use strict';
 var AWS = require('aws-sdk'),
     dynamodb = new AWS.DynamoDB({ region: 'us-west-2' });
-module.exports = (event, context, callback) => {
+module.exports.voteApp = (event, context, callback) => {
     var votedFor = event['Body'].toUpperCase().trim(),
         votedForHash,
         tableName = 'vote';
