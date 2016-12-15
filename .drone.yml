@@ -2,5 +2,5 @@ build:
  image: node:6
  commands:
   - npm install --silent
-  - npm install -g gulp
+  - npm install -g --silent gulp
   - gulp deploy

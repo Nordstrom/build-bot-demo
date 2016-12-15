@@ -15,7 +15,8 @@
     "jsonschema": "^1.1.0",
     "lodash": "^4.13.1",
     "mocha": "^3.2.0",
-    "node-dir": "^0.1.16"
+    "node-dir": "^0.1.16",
+    "sls": "0.0.4"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
