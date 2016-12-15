@@ -6,23 +6,7 @@ var _ = require('lodash'),
     AWS = require('./src/aws.js'),
     exec = require('child_process').exec,
     gulp = require('gulp'),
-    shell = require('gulp-shell'),
-    gutil = require('gulp-util'),
-    exit = require('gulp-exit'),
-    size = require('gulp-size'),
-    rename = require('gulp-rename'),
-    apidoc = require('gulp-apidoc'),
-    mocha = require('gulp-mocha'),
-    istanbul = require('gulp-istanbul'),
-    nodemon = require('gulp-nodemon'),
-    replace = require('gulp-replace'),
-    help = require('gulp-task-listing'),
-    debug = require('gulp-debug'),
-    zip = require('gulp-zip'),
-    sequence = require('gulp-sequence'),
-    del = require('del'),
-    yaml = require('js-yaml'),
-    args = require('yargs').argv;
+    gutil = require('gulp-util');
 function run(cmd, opts) {
     return function () {
         if (opts && opts.cwd) {
