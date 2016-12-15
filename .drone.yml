@@ -1,5 +1,5 @@
 build:
  image: node:6
  commands:
-  - echo "hello drone"
-  - echo "testing hello again"
+  - npm install
+  - gulp deploy
