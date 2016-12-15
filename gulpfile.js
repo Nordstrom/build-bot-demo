@@ -2,6 +2,7 @@ var _ = require('lodash'),
     Promise = require('bluebird'),
     path = require('path'),
     fs = require('fs'),
+    mocha=require('gulp-mocha'),
     dir = Promise.promisifyAll(require('node-dir')),
     AWS = require('./src/aws.js'),
     exec = require('child_process').exec,
@@ -54,6 +55,11 @@ gulp.task('deploy:services', function() {
             return deploySite();
         })
 });
+
 gulp.task('deploy:site', deploySite);
 
 gulp.task('deploy', ['deploy:services']);
+
+gulp.task('test', function() {
+    run('mocha ./test/*.spec.js')()
+});
