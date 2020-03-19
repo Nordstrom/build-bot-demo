@@ -14,14 +14,14 @@
     "https-proxy-agent": "^1.0.0",
     "jsonschema": "^1.1.0",
     "lodash": "^4.13.1",
-    "mocha": "^3.2.0",
+    "mocha": "^7.1.1",
     "node-dir": "^0.1.16",
     "sls": "0.0.4"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.7",
-    "mocha": "^3.2.0",
+    "mocha": "^7.1.1",
     "nock": "^8.0.0",
     "should": "^9.0.2",
     "substituter": "^1.2.1",
