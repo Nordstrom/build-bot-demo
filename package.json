@@ -16,7 +16,8 @@
     "lodash": "^4.13.1",
     "mocha": "^3.2.0",
     "node-dir": "^0.1.16",
-    "sls": "0.0.4"
+    "sls": "0.0.4",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
@@ -30,5 +31,10 @@
   },
   "publishConfig": {
     "registry": "https://mvnrepo.nordstrom.net/nexus/content/repositories/nordNPM/"
-  }
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
